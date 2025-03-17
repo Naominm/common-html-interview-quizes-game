@@ -24,9 +24,21 @@ setError("Error fetching html Questions")
      fetchQuiz();
     },[])
 
+    function handleNext(){
+        if (currentQuestionIndex < questions.length - 1) {
+            setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+        } 
+    }
+    function handlePrev(){
+        if (currentQuestionIndex >0) {
+            setCurrentQuestionIndex((prevIndex) => prevIndex - 1);
+        }
+    }
+
     return(
         <div className="game-parent-container">
       <h1 className="game-title">HTML QUIZ CHALLENGE</h1>
+      <div className="parent-quiz-content">
       
         <div className="current-question">
         {questions.length===0?(
@@ -36,8 +48,12 @@ setError("Error fetching html Questions")
       )}
 
         </div>
+        <div className="navigation-buttons">
+            <button onClick={handlePrev} disabled={currentQuestionIndex==0}>previous Question</button>
+            <button onClick={handleNext} disabled={currentQuestionIndex===questions.length-1}>Next Question</button>
+        </div>
      
-
+        </div>
         </div>
     )
 }
