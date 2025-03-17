@@ -116,7 +116,7 @@ function Game() {
         <div className="finish">
           <button
             onClick={handleFinish}
-            disabled={currentQuestionIndex !== questions.length - 1}
+            disabled={currentQuestionIndex !== questions.length - 1 || !selectedAnswer}
           >
             Finish and Submit
           </button>
