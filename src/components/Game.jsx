@@ -7,6 +7,7 @@ function Game(){
     const[questions,setQuestions]=useState([]);
 
     const[currentQuestionIndex,setCurrentQuestionIndex]=useState(0);
+    const[selectedAnswer,setSelectedAnswer]=useState('')
 
     const [error,setError]=useState("")
 
@@ -27,12 +28,17 @@ setError("Error fetching html Questions")
     function handleNext(){
         if (currentQuestionIndex < questions.length - 1) {
             setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+            setSelectedAnswer(""); 
         } 
     }
     function handlePrev(){
         if (currentQuestionIndex >0) {
             setCurrentQuestionIndex((prevIndex) => prevIndex - 1);
+            setSelectedAnswer(""); 
         }
+    }
+    function handleAnswerChange(answer) {
+        setSelectedAnswer(answer);
     }
 
     return(
@@ -47,6 +53,26 @@ setError("Error fetching html Questions")
         <p>{currentQuestionIndex+1}:{questions[currentQuestionIndex].question}</p>
       )}
 
+        </div>
+        <div className="selection-options">
+        {questions.length > 0 && questions[currentQuestionIndex]?.answers && (
+            <div className="parent-list-container">
+            <ul className="unordered-list">
+        {Object.entries(questions[currentQuestionIndex].answers)
+         .filter(([_, value]) => value)
+        .map(([key,value])=>(
+         <li key={key}>
+            <input type="checkbox" className="check-box"
+            value={key}
+            checked={selectedAnswer===key}
+            onChange={()=>{handleAnswerChange(key)}}
+            />
+            {value}
+         </li>
+        ))}
+        </ul>
+        </div>
+        )}
         </div>
         <div className="navigation-buttons">
             <button onClick={handlePrev} disabled={currentQuestionIndex==0}>previous Question</button>
