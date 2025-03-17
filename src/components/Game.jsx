@@ -8,6 +8,9 @@ function Game(){
 
     const[currentQuestionIndex,setCurrentQuestionIndex]=useState(0);
     const[selectedAnswer,setSelectedAnswer]=useState('')
+    const [score,setScore]=useState(0);
+    const [quizFinished, setQuizFinished] = useState(false);
+
 
     const [error,setError]=useState("")
 
@@ -25,12 +28,23 @@ setError("Error fetching html Questions")
      fetchQuiz();
     },[])
 
-    function handleNext(){
+    function handleNext() {
+        const correctAnswerKey = Object.keys(questions[currentQuestionIndex].correct_answers)
+        .find(key => questions[currentQuestionIndex].correct_answers[key] === "true");
+    
+     
+        const correctAnswer = correctAnswerKey.replace('_correct', '');
+    
+        if (selectedAnswer === correctAnswer) {
+            setScore(prevScore => prevScore + 1);
+        }
+    
         if (currentQuestionIndex < questions.length - 1) {
             setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
             setSelectedAnswer(""); 
-        } 
+        }
     }
+    
     function handlePrev(){
         if (currentQuestionIndex >0) {
             setCurrentQuestionIndex((prevIndex) => prevIndex - 1);
@@ -40,6 +54,10 @@ setError("Error fetching html Questions")
     function handleAnswerChange(answer) {
         setSelectedAnswer(answer);
     }
+    function handleFinish() {
+        setQuizFinished(true);
+    }
+    
 
     return(
         <div className="game-parent-container">
@@ -77,8 +95,20 @@ setError("Error fetching html Questions")
         <div className="navigation-buttons">
             <button onClick={handlePrev} disabled={currentQuestionIndex==0}>previous Question</button>
             <button onClick={handleNext} disabled={currentQuestionIndex===questions.length-1}>Next Question</button>
+          
+           
         </div>
-     
+        <div className="finish">
+        <button onClick={handleFinish} disabled={currentQuestionIndex !== questions.length - 1}>
+    Finish and Submit
+</button>
+
+            </div>
+            {quizFinished && (
+                    <p className="final-score">
+                        Final Score: {score} / {questions.length}
+                    </p>
+                )}
         </div>
         </div>
     )

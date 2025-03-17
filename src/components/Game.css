@@ -68,3 +68,22 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.score-display {
+    font-size: 1.5rem;
+    color: var(--color-light-green);
+    margin-bottom: 1rem;
+}
+
+.finish button{
+    padding: 1rem;
+    border: 1px solid var(--color-light-green);
+    width: 30rem;
+    border-radius: 2rem;
+
+}
+.finish button:hover{
+    font-family: inherit;
+    color: inherit;
+    background-color: var(--color-light-green);
+}
